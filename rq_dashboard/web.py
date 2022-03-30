@@ -66,7 +66,7 @@ def setup_rq_connection():
     redis_url = current_app.config.get("RQ_DASHBOARD_REDIS_URL")
     if isinstance(redis_url, string_types):
         current_app.config["RQ_DASHBOARD_REDIS_URL"] = (redis_url,)
-        _, current_app.redis_conn = from_url((redis_url,) ssl_cert_reqs=None)[0])
+        _, current_app.redis_conn = from_url((redis_url,), ssl_cert_reqs=None)[0])
     elif isinstance(redis_url, (tuple, list)):
         _, current_app.redis_conn = from_url(redis_url[0], ssl_cert_reqs=None)
     else:
