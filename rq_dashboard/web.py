@@ -66,9 +66,9 @@ def setup_rq_connection():
     redis_url = current_app.config.get("RQ_DASHBOARD_REDIS_URL")
     if isinstance(redis_url, string_types):
         current_app.config["RQ_DASHBOARD_REDIS_URL"] = (redis_url,)
-        _, current_app.redis_conn = from_url((redis_url,)[0])
+        _, current_app.redis_conn = from_url((redis_url,) ssl_cert_reqs=None)[0])
     elif isinstance(redis_url, (tuple, list)):
-        _, current_app.redis_conn = from_url(redis_url[0])
+        _, current_app.redis_conn = from_url(redis_url[0], ssl_cert_reqs=None)
     else:
         raise RuntimeError("No Redis configuration!")
 
@@ -79,7 +79,7 @@ def push_rq_connection():
     if new_instance_number is not None:
         redis_url = current_app.config.get("RQ_DASHBOARD_REDIS_URL")
         if new_instance_number < len(redis_url):
-            _, new_instance = from_url(redis_url[new_instance_number])
+            _, new_instance = from_url(redis_url[new_instance_number], ssl_cert_reqs=None)
         else:
             raise LookupError("Index exceeds RQ list. Not Permitted.")
     else:
